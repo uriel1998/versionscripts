@@ -57,9 +57,10 @@ time=`date +_%Y%m%d_%H%M%S`
 
 # avoiding goto statements or duplication of text here
 usage=0
+numargs="$#"
 
 # test for arguments
-if [ "#$" > 0 ]; then        
+if [ "$numargs" -gt "0" ]; then       
 	# test our commandline arguments
 	case "$1" in
 	"-z" | "-Z" ) 
@@ -106,13 +107,13 @@ if [ "#$" > 0 ]; then
 		# Tests if not a symlink OR the -s flag is used
 		if [ ! -h "$origfile" -o "$2" = "-s" ]; then
 			fullpath=$(realpath "$origfile")
-			dir=$(dirname $fullpath)
-			filename=$(basename $fullpath)
+			dir=$(dirname "$fullpath")
+			filename=$(basename "$fullpath")
 			ext=${filename##*.}
 			file=${filename%.*}
 			newname=$(echo "$dir/$file$time.$ext")
 			echo "Copying $fullpath to $newname"
-			cp $fullpath $newname
+			cp "$fullpath" "$newname"
 		else
 			echo "Symlink detected and following symlinks not enabled."
 			usage=1
